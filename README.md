@@ -358,11 +358,18 @@ There should be a a separate class for Constant named `Constants.h` and `Constan
 
 Constants.h
 
+```objc
+extern NSString * const ORSProductManagerName;
+
+extern int const ORSCurrentEmployeeCount;
+```
+
+Constants.m
 
 ```objc
-static NSString * const ORSProductManagerName = @"Muneeb Dilshad";
+NSString * const ORSProductManagerName = @"Muneeb Dilshad";
 
-static const int ORSCurrentEmployeeCount = 50;
+int constant ORSCurrentEmployeeCount = 50;
 ```
 
 **Not:**
@@ -373,6 +380,11 @@ static const int ORSCurrentEmployeeCount = 50;
 #define currentEmployeeCount 50
 ```
 
+If it is intended to use within the class, it should be declared like so,
+```objc
+static NSString * const ORSProductManagerName = @"Muneeb Dilshad";";
+```
+
 ## Enumerated Types
 
 When using `enum`s, use the new fixed underlying type specification, which provides stronger type checking and code completion. The SDK includes a macro to facilitate and encourage use of fixed underlying types: `NS_ENUM()`.
@@ -380,9 +392,12 @@ When using `enum`s, use the new fixed underlying type specification, which provi
 **Example:**
 
 ```objc
-typedef NS_ENUM(NSInteger, NYTAdRequestState) {
-    NYTAdRequestStateInactive,
-    NYTAdRequestStateLoading
+typedef NS_ENUM(NSInteger, ToolDataRange)
+{
+    ToolDataRangeWeekly = 0,
+    ToolDataRangeDaily,
+    ToolDataRangeMonthly,
+    ToolDataRangeCount,
 };
 ```
 
@@ -394,28 +409,34 @@ When working with bitmasks, use the `NS_OPTIONS` macro.
 
 ```objc
 typedef NS_OPTIONS(NSUInteger, NYTAdCategory) {
-    NYTAdCategoryAutos      = 1 << 0,
-    NYTAdCategoryJobs       = 1 << 1,
-    NYTAdCategoryRealState  = 1 << 2,
-    NYTAdCategoryTechnology = 1 << 3
+    ORSDepartmentCGI      = 1 << 0,
+    ORSDepartmentWMS      = 1 << 1,
+    ORSDepartmentGI       = 1 << 2,
+    ORSDepartmentBD       = 1 << 3
 };
 ```
 
 ## Private Properties
 
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class.
+Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. `nonatomic, copy` should be use for creating property of any `NSMutableArray`, `NSArray`, `NSMutableDictionary`, `NSDictionary` while `nonatomic, assign` should be use for `int`, `float`, `bool`, etc and `nonatomic, retain` for rest of the most cases.
 
 **For example:**
 
 ```objc
-@interface NYTAdvertisement ()
+@interface ToolViewController ()
 
-@property (nonatomic, strong) GADBannerView *googleAdView;
-@property (nonatomic, strong) ADBannerView *iAdView;
-@property (nonatomic, strong) UIWebView *adXWebView;
+@property (nonatomic, copy) NSArray *tools;
+
+@property (nonatomic, strong) UIButton *settingsButton;
+@property (nonatomic, strong) UIButton *infoButton;
+
+@property (nonatomic, assign) int toolIndex;
+
+@property (nonatomic, assign) bool isToolSelected;
 
 @end
 ```
+Properties should be grouped together on the basis of their data types.
 
 ## Image Naming
 
@@ -426,7 +447,7 @@ Image names should be named consistently to preserve organization and developer 
 * `RefreshBarButtonItem` / `RefreshBarButtonItem@2x` and `RefreshBarButtonItemSelected` / `RefreshBarButtonItemSelected@2x`
 * `ArticleNavigationBarWhite` / `ArticleNavigationBarWhite@2x` and `ArticleNavigationBarBlackSelected` / `ArticleNavigationBarBlackSelected@2x`.
 
-Images that are used for a similar purpose should be grouped in respective groups in an Images folder or Asset Catalog.
+Asset Catalogue should be used to organise and manage any image assets in you application.
 
 ## Booleans
 
@@ -494,11 +515,11 @@ Note: For modules use the [@import](http://clang.llvm.org/docs/Modules.html#usin
 @import QuartzCore;
 
 // Models
-#import "NYTUser.h"
+#import "ORSUser.h"
 
 // Views
-#import "NYTButton.h"
-#import "NYTUserView.h"
+#import "CustomButton.h"
+#import "CustomUserView.h"
 ```
 
 ## Protocols
