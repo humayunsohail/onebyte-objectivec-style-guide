@@ -31,13 +31,15 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Constants](#constants)
 * [Enumerated Types](#enumerated-types)
 * [Bitmasks](#bitmasks)
-* [Private Properties](#private-properties)
+* [Properties](#properties)
 * [Image Naming](#image-naming)
 * [Booleans](#booleans)
 * [Singletons](#singletons)
 * [Imports](#imports)
 * [Protocols](#protocols)
+* [Multi-device support](#multi-device-support)
 * [Auto-Generated Code](#auto-generated-code)
+* [Super Class](#super-class)
 * [Xcode Project](#xcode-project)
 
 ## Notation Syntax 
@@ -164,6 +166,35 @@ In method signatures, there should be a space after the scope (`-` or `+` symbol
 -(void)setUserWithNameAndProfilePicture:(NSString *)name image:(UIImage *)profilePicture;
 ```
 
+Avoid extra re-factoring i.e. methods with less implementation should be placed in actual code flow instead of putting them in the methods.
+
+**For example:**
+```objc
+ if (![self.emailTextField isEqualToString:@""])
+ {
+   [self showAlertViewWithTitle:@"Signup Failed" andWithMessage:@"Email field is missing"];
+		 return false;
+ }
+```
+
+**Not:**
+```objc
+ if (![self emptyFieldValidation])
+ {
+   [self showAlertViewWithTitle:@"Signup Failed" andWithMessage:@"Email field is missing"];
+		 return false;
+ }
+ 
+ - (BOOL)emptyFieldValidation:(NSString *)text
+ {
+    if([text isEqualToString:@""])
+    {
+       return true;
+    }
+    return false;
+ }
+```
+
 ## Variables
 
 Variables should be self explanatory, with the variable’s name clearly communicating what the variable _is_ and how it can be used.
@@ -200,7 +231,7 @@ Direct instance variable access should be avoided except in initializer methods 
 **Not:**
 
 ```objc
-@interface NYTSection : NSObject {
+@interface Section : NSObject {
     NSString *toolName;
 }
 ```
@@ -477,9 +508,9 @@ typedef NS_OPTIONS(NSUInteger, NYTAdCategory) {
 };
 ```
 
-## Private Properties
+## Properties
 
-Private properties should be declared in class extensions (anonymous categories) in the implementation file of a class. `nonatomic, copy` should be use for creating property of any `NSMutableArray`, `NSArray`, `NSMutableDictionary`, `NSDictionary` while `nonatomic, assign` should be use for `int`, `float`, `bool`, etc and `nonatomic, retain` for rest of the most cases.
+Public properties should be declated in header file while private properties should be declared in the implementation file under ```@interface ViewController ()``` of a class. `nonatomic, copy` should be use for creating property of any `NSMutableArray`, `NSArray`, `NSMutableDictionary`, `NSDictionary` while `nonatomic, assign` should be use for `int`, `float`, `bool`, etc and `nonatomic, retain` for rest of the most cases.
 
 **For example:**
 
@@ -498,6 +529,9 @@ Private properties should be declared in class extensions (anonymous categories)
 @end
 ```
 Properties should be grouped together on the basis of their data types.
+
+Public ```@properties``` should not be ```@synthesized``` because this is an old convention which is no longer necessary and they can be accessed through ```self```.
+
 
 ## Image Naming
 
@@ -600,10 +634,21 @@ This helps disambiguate in cases when an object is the delegate for multiple sim
 ```objc
 - (void)didSelectTableRowAtIndexPath:(NSIndexPath *)indexPath;
 ```
+
+There should always be implementation in the protocols methods, in the case if it is left for future use, they should be implemented with ```NSLog(@"Function Name");```
+
 ## Auto-Generated Code
 
 Any auto-generated code or overridden methods that do not extend the super method in any way should be
 deleted as they are redundant.This helps declutter the class.
+
+## Multi-Device Support
+
+**Auto-layout** should be applied in all interface files to support multiple iOS Device resolutions. It is great to give this support before moving to next view and it is recommended to apply it through Interface Builder.
+
+## Super Class
+
+Same natured views with different data used in numerous views should be added through super class view and customised accordingly in order to enhance re-usability and decrease development time. 
 
 ## Xcode project
 
