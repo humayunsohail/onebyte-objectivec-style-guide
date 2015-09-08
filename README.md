@@ -21,10 +21,12 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Methods](#methods)
 * [Variables](#variables)
 * [Naming](#naming)
-* [Catgories](#categories)
+* [Categories](#categories)
 * [Comments](#comments)
 * [Init & Dealloc](#init-and-dealloc)
 * [Literals](#literals)
+* [Strings](#strings)
+* [Navigation Bar](#navigation-bar)
 * [CGRect Functions](#cgrect-functions)
 * [Constants](#constants)
 * [Enumerated Types](#enumerated-types)
@@ -35,6 +37,7 @@ Here are some of the documents from Apple that informed the style guide. If some
 * [Singletons](#singletons)
 * [Imports](#imports)
 * [Protocols](#protocols)
+* [Auto-Generated Code](#auto-generated-code)
 * [Xcode Project](#xcode-project)
 
 ## Notation Syntax 
@@ -319,6 +322,64 @@ NSDictionary *offroadDevelopers = [NSDictionary dictionaryWithObjectsAndKeys: @"
 NSNumber *shouldUseLiterals = [NSNumber numberWithBool:YES];
 NSNumber *lahoreZipCode = [NSNumber numberWithInteger:54570];
 ```
+## Strings
+
+`NSString` should be initialize/update using simpler approach.
+
+**For example:**
+
+```objc
+firstNameLabel.text = self.firstName;
+```
+**Not:**
+
+```objc
+firstNameLabel.text = [NSString stringWithFormat:@"%@", self.firstName];
+```
+## Navigation Bar
+
+Default iOS Navigation Bar should be use instead of creating custom Navigation Bar view class. This simply give default iOS navigational experience and makes the code simple and less.
+
+**For example:**
+
+```objc
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+
+    self.navigationItem.title = @"Fitness";
+    
+    self.navigationController.navigationBar.barTintColor = [UIColor blueColor];
+}
+```
+
+**Not:**
+
+```objc
+-(void)initializeNavgationBar
+{
+ self.navigationController.navigationBarHidden = YES;
+ 
+ self.navigationBarViewController = [[NavigationBarViewController alloc] initWithNibName:@"NavigationBarViewController" bundle:nil];
+
+ self.navigationBarViewController.navigationBarTitleText = [NSString 
+stringWithFormat:@"Suggestions For You"];
+
+ self.navigationBarViewController.navigationBarBackgroundHexValue = [NSString 
+stringWithFormat:@"F9C21C"];
+
+ self.navigationBarViewController.statusBarBackgroundHexValue = [NSString 
+stringWithFormat:@"BD9217"];
+
+ self.navigationBarViewController.backButtonShow = YES;
+
+ self.navigationBarViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, 
+
+64);
+
+ [self.view addSubview:self.navigationBarViewController.view];
+}
+```
 
 ## `CGRect` Functions
 
@@ -539,6 +600,10 @@ This helps disambiguate in cases when an object is the delegate for multiple sim
 ```objc
 - (void)didSelectTableRowAtIndexPath:(NSIndexPath *)indexPath;
 ```
+## Auto-Generated Code
+
+Any auto-generated code or overridden methods that do not extend the super method in any way should be
+deleted as they are redundant.This helps declutter the class.
 
 ## Xcode project
 
