@@ -1,6 +1,6 @@
 # Objective-C Style Guide at Offroad Studios
 
-This style guide outlines the coding norms of iOS development at Offroad Studios. These practises are based on [The New York Times conventions](https://github.com/NYTimes/objective-c-style-guide) plus addition of those things which we have experienced.
+This style guide outlines the coding norms of iOS development at Offroad Studios. 
 
 ## Introduction
 
