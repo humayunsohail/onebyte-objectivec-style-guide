@@ -372,7 +372,7 @@ int constant 1BCurrentEmployeeCount = 50;
 
 If it is intended to use within the class, it should be declared like so,
 ```objc
-static NSString * const ORSProductManagerName = @"Muneeb Dilshad";";
+static NSString * const 1BProductManagerName = @"Muneeb Dilshad";";
 ```
 
 ## Enumerated Types
@@ -399,10 +399,10 @@ When working with bitmasks, use the `NS_OPTIONS` macro.
 
 ```objc
 typedef NS_OPTIONS(NSUInteger, NYTAdCategory) {
-    ORSDepartmentCGI      = 1 << 0,
-    ORSDepartmentWMS      = 1 << 1,
-    ORSDepartmentGI       = 1 << 2,
-    ORSDepartmentBD       = 1 << 3
+    1BDepartmentCGI      = 1 << 0,
+    1BDepartmentWMS      = 1 << 1,
+    1BDepartmentGI       = 1 << 2,
+    1BDepartmentBD       = 1 << 3
 };
 ```
 
@@ -508,7 +508,7 @@ Note: For modules use the [@import](http://clang.llvm.org/docs/Modules.html#usin
 @import QuartzCore;
 
 // Models
-#import "ORSUser.h"
+#import "1BUser.h"
 
 // Views
 #import "CustomButton.h"
