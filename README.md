@@ -1,6 +1,6 @@
-# Objective-C Style Guide at Offroad Studios
+# Objective-C Style Guide at OneByte
 
-This style guide outlines the coding norms of iOS development at Offroad Studios. 
+This style guide outlines the coding norms of iOS development at OneByte. 
 
 ## Introduction
 
@@ -61,42 +61,17 @@ UIApplication.sharedApplication.delegate;
 
 ## Spacing
 
-* Indent using 4 spaces. Never indent with tabs. Make this setting in the preferences of Xcode.
-* Method braces and other braces (`if`/`else`/`switch`/`while` etc.) always open on the new line as the statement and close on a new line.
-
-**For example:**
-```objc
-if (flag) 
-{
-    // Do something
-}
-else 
-{
-    // Do something else
-}
-```
-
-**Not:**
-```objc
-if (flag) {
-    // Do something
-}
-else {
-    // Do something else
-}
-```
 * There should be exactly one blank line between methods to aid in visual clarity and organization.
 * Whitespace within methods should be used to separate functionality (though often this can indicate an opportunity to split the method into several, smaller methods). In methods with long or verbose names, a single line of whitespace may be used to provide visual separation before the method’s body.
 * `@synthesize` and `@dynamic` should each be declared on new lines in the implementation.
 
 ## Conditionals
 
-Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only) to prevent [errors](https://github.com/NYTimes/objective-c-style-guide/issues/26#issuecomment-22074256). These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line “inside” the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
+Conditional bodies should always use braces even when a conditional body could be written without braces (e.g., it is one line only). These errors include adding a second line and expecting it to be part of the if-statement. Another, [even more dangerous defect](http://programmers.stackexchange.com/a/16530) may happen where the line “inside” the if-statement is commented out, and the next line unwittingly becomes part of the if-statement. In addition, this style is more consistent with all other conditionals, and therefore more easily scannable.
 
 **For example:**
 ```objc
-if (!error) 
-{
+if (!error) {
     return success;
 }
 ```
@@ -134,8 +109,7 @@ When methods return an error parameter by reference, switch on the returned valu
 **For example:**
 ```objc
 NSError *error;
-if (![self trySomethingWithError:&error])
-{
+if (![self trySomethingWithError:&error]){
     // Handle Error
 }
 ```
@@ -144,8 +118,7 @@ if (![self trySomethingWithError:&error])
 ```objc
 NSError *error;
 [self trySomethingWithError:&error];
-if (error) 
-{
+if (error) {
     // Handle Error
 }
 ```
@@ -170,8 +143,7 @@ Avoid extra re-factoring i.e. methods with less implementation should be placed 
 
 **For example:**
 ```objc
- if (![self.emailTextField isEqualToString:@""])
- {
+ if (![self.emailTextField isEqualToString:@""]) {
    [self showAlertViewWithTitle:@"Signup Failed" andWithMessage:@"Email field is missing"];
 		 return false;
  }
@@ -179,14 +151,12 @@ Avoid extra re-factoring i.e. methods with less implementation should be placed 
 
 **Not:**
 ```objc
- if (![self emptyFieldValidation])
- {
+ if (![self emptyFieldValidation]){
    [self showAlertViewWithTitle:@"Signup Failed" andWithMessage:@"Email field is missing"];
 		 return false;
  }
  
- - (BOOL)emptyFieldValidation:(NSString *)text
- {
+ - (BOOL)emptyFieldValidation:(NSString *)text{
     if([text isEqualToString:@""])
     {
        return true;
@@ -235,76 +205,6 @@ Direct instance variable access should be avoided except in initializer methods 
     NSString *toolName;
 }
 ```
-## Naming
-
-Naming should be logical, self explanatory and short but should represent its objective. It should use original English words instead of short form of them. Something is named very descriptively does not mean it is easy to read and understand.
-
-**For example:**
-
-```objc
-@property (nonatomic, strong) IBOutlet UIButton *settingsButton;
-```
-
-**Not**
-
-```objc
-@property (nonatomic, strong) IBOutlet UIButton *setBut;
-```
-
-**or**
-
-```objc
-@property (nonatomic, strong) IBOutlet UIButton *settings_Button;
-```
-
-A three letter prefix (e.g., `ORS`) should always be used for class names and constants, however may be omitted for Core Data entity names. Constants should be camel-case with all words capitalized and prefixed by the related class name for clarity. A two letter prefix (e.g., `NS`) is [reserved for use by Apple](https://developer.apple.com/library/mac/documentation/Cocoa/Conceptual/ProgrammingWithObjectiveC/DefiningClasses/DefiningClasses.html#//apple_ref/doc/uid/TP40011210-CH3-SW12).
-
-**For example:**
-
-```objc
-static const float ORSNavigationColorAlpha = 0.3;
-```
-
-**Not:**
-
-```objc
-static const float navigationAlpha = 1.7;
-```
-
-Properties and local variables should be camel-case with the leading word being lowercase.
-
-## Categories
-
-Methods and properties added in categories should be named with an app- or organization-specific prefix. This avoids unintentionally overriding an existing method, and it reduces the chance of two categories from different libraries adding a method of the same name. 
-
-
-**For example:**
-
-UIImage+ORSImage.h
-```objc
-@interface UIImage (ORSImage)
-
-+ (UIImage *)ors_adjustImageSizeWithImage:(UIImage *)sourceImage andWithNewSize:(CGSize)size;
-```
-
-**Not:**
-
-UIImage+ORSImage.h
-```objc
-@interface UIImage (ORSImage)
-
-+ (UIImage *)ORS_adjustImageSizeWithImage:(UIImage *)sourceImage andWithNewSize:(CGSize)size;
-```
-
-**Not:**
-
-UIImage+ORSImage.h
-```objc
-@interface UIImage (Image)
-
-+ (UIImage *)adjustImageSizeWithImage:(UIImage *)sourceImage andWithNewSize:(CGSize)size;
-```
-
 ## Comments
 
 When they are needed, comments should be used to explain **why** a particular piece of code does something e.g. complex algorithm steps. And there is no need to put comments in front of self explanatory variables and methods.
@@ -339,8 +239,8 @@ Block comments should generally be avoided, as code should be as self-documentin
 **For example:**
 
 ```objc
-NSArray *departments = @[@"CGI", @"WMS", @"GI", @"Sales", @"Management"];
-NSDictionary *offroadDevelopers = @{@"Hammy" : @"Asim", @"Adeel" : @"Wajeeh", @"Zohaib" : @"Sarmad"};
+NSArray *departments = @[@"WMS", @"GI", @"Sales", @"Management"];
+NSDictionary *onebyteDevelopers = @{@"iOS" : @"Hammy", @"Android" : @"Faraz", @"Web" : @"Faheem"};
 NSNumber *shouldUseLiterals = @YES;
 NSNumber *lahoreZipCode = @54570;
 ```
@@ -348,8 +248,7 @@ NSNumber *lahoreZipCode = @54570;
 **Not:**
 
 ```objc
-NSArray *departments = [NSArray arrayWithObjects:@"CGI", @"WMS", @"Sales", @"GI", @"Management", nil];
-NSDictionary *offroadDevelopers = [NSDictionary dictionaryWithObjectsAndKeys: @"Hammy", @"Asim", @"Zohaib", @"Sarmad", @"Wajeeh", @"Ammar", nil];
+NSArray *departments = [NSArray arrayWithObjects:@"WMS", @"Sales", @"GI", @"Management", nil];
 NSNumber *shouldUseLiterals = [NSNumber numberWithBool:YES];
 NSNumber *lahoreZipCode = [NSNumber numberWithInteger:54570];
 ```
@@ -374,8 +273,7 @@ Default iOS Navigation Bar should be use instead of creating custom Navigation B
 **For example:**
 
 ```objc
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 
     self.navigationItem.title = @"Fitness";
@@ -451,17 +349,17 @@ There should be a a separate class for Constant named `Constants.h` and `Constan
 Constants.h
 
 ```objc
-extern NSString * const ORSProductManagerName;
+extern NSString * const 1BProductManagerName;
 
-extern int const ORSCurrentEmployeeCount;
+extern int const 1BCurrentEmployeeCount;
 ```
 
 Constants.m
 
 ```objc
-NSString * const ORSProductManagerName = @"Muneeb Dilshad";
+NSString * const 1BProductManagerName = @"Muneeb Dilshad";
 
-int constant ORSCurrentEmployeeCount = 50;
+int constant 1BCurrentEmployeeCount = 50;
 ```
 
 **Not:**
